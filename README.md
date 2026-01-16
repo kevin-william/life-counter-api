@@ -8,7 +8,8 @@ API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagg
 ## Características
 
 - ✅ .NET 8 Web API
-- ✅ Entity Framework Core com SQL Server
+- ✅ Entity Framework Core com PostgreSQL
+- ✅ Criação automática de tabelas ao iniciar
 - ✅ Repository Pattern
 - ✅ Dependency Injection
 - ✅ AutoMapper para mapeamento de DTOs
@@ -75,7 +76,7 @@ API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagg
 ### Pré-requisitos
 
 - .NET 8 SDK
-- SQL Server (ou SQL Server Express)
+- PostgreSQL
 
 ### String de Conexão
 
@@ -84,10 +85,12 @@ Atualize a string de conexão em `appsettings.json` ou `appsettings.Development.
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=LifeCounterDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Host=localhost;Database=LifeCounterDb;Username=postgres;Password=postgres"
   }
 }
 ```
+
+**Nota:** As tabelas do banco de dados são criadas automaticamente na primeira execução da aplicação se não existirem.
 
 ### Executar a API
 
@@ -105,7 +108,7 @@ A API estará disponível em:
 
 ### Migrations (Entity Framework)
 
-Para criar e aplicar migrations:
+**Nota:** A aplicação cria automaticamente as tabelas necessárias ao iniciar se elas não existirem. No entanto, se preferir usar migrations do Entity Framework:
 
 ```bash
 # Criar uma migration
@@ -135,7 +138,8 @@ LifeCounterApi/
 
 - **ASP.NET Core 8.0** - Framework web
 - **Entity Framework Core 8.0** - ORM
-- **SQL Server** - Banco de dados
+- **PostgreSQL** - Banco de dados
+- **Npgsql** - Driver PostgreSQL para .NET
 - **AutoMapper 12.0** - Mapeamento objeto-objeto
 - **Swashbuckle.AspNetCore 10.1** - Documentação Swagger/OpenAPI
 
