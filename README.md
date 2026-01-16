@@ -100,8 +100,8 @@ dotnet run
 
 A API estará disponível em:
 - HTTP: `http://localhost:5142`
-- HTTPS: `https://localhost:7142`
-- Swagger UI: `http://localhost:5142` ou `https://localhost:7142`
+- HTTPS: `https://localhost:7212`
+- Swagger UI: `http://localhost:5142` ou `https://localhost:7212`
 
 ### Migrations (Entity Framework)
 
