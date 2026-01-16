@@ -1,0 +1,158 @@
+@LifeCounterApi_HostAddress = http://localhost:5142
+
+### Health Check - Swagger UI
+GET {{LifeCounterApi_HostAddress}}/
+
+###
+
+### Contadores - Listar Todos
+GET {{LifeCounterApi_HostAddress}}/api/contadores
+Accept: application/json
+
+###
+
+### Contadores - Criar
+POST {{LifeCounterApi_HostAddress}}/api/contadores
+Content-Type: application/json
+
+{
+  "nome": "Contador de Vitórias",
+  "valor": 0
+}
+
+###
+
+### Contadores - Obter por ID
+# Substitua {id} com um ID real
+GET {{LifeCounterApi_HostAddress}}/api/contadores/{id}
+Accept: application/json
+
+###
+
+### Contadores - Atualizar
+# Substitua {id} com um ID real
+PUT {{LifeCounterApi_HostAddress}}/api/contadores/{id}
+Content-Type: application/json
+
+{
+  "nome": "Contador Atualizado",
+  "valor": 10
+}
+
+###
+
+### Contadores - Incrementar
+# Substitua {id} com um ID real
+PATCH {{LifeCounterApi_HostAddress}}/api/contadores/{id}/incrementar
+Content-Type: application/json
+
+{
+  "incremento": 1
+}
+
+###
+
+### Contadores - Obter Utilizadores
+# Substitua {id} com um ID real
+GET {{LifeCounterApi_HostAddress}}/api/contadores/{id}/utilizadores
+Accept: application/json
+
+###
+
+### Contadores - Excluir
+# Substitua {id} com um ID real
+DELETE {{LifeCounterApi_HostAddress}}/api/contadores/{id}
+
+###
+
+### Utilizadores - Listar Todos
+GET {{LifeCounterApi_HostAddress}}/api/utilizadores
+Accept: application/json
+
+###
+
+### Utilizadores - Criar
+POST {{LifeCounterApi_HostAddress}}/api/utilizadores
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao.silva@example.com"
+}
+
+###
+
+### Utilizadores - Obter por ID
+# Substitua {id} com um ID real
+GET {{LifeCounterApi_HostAddress}}/api/utilizadores/{id}
+Accept: application/json
+
+###
+
+### Utilizadores - Atualizar
+# Substitua {id} com um ID real
+PUT {{LifeCounterApi_HostAddress}}/api/utilizadores/{id}
+Content-Type: application/json
+
+{
+  "nome": "João Pedro Silva",
+  "email": "joao.pedro@example.com"
+}
+
+###
+
+### Utilizadores - Obter Contadores
+# Substitua {id} com um ID real
+GET {{LifeCounterApi_HostAddress}}/api/utilizadores/{id}/contadores
+Accept: application/json
+
+###
+
+### Utilizadores - Excluir
+# Substitua {id} com um ID real
+DELETE {{LifeCounterApi_HostAddress}}/api/utilizadores/{id}
+
+###
+
+### Contador_Utilizadores - Listar Todos
+GET {{LifeCounterApi_HostAddress}}/api/contador_utilizadores
+Accept: application/json
+
+###
+
+### Contador_Utilizadores - Criar Associação
+POST {{LifeCounterApi_HostAddress}}/api/contador_utilizadores
+Content-Type: application/json
+
+{
+  "contadorId": "00000000-0000-0000-0000-000000000000",
+  "utilizadorId": "00000000-0000-0000-0000-000000000000",
+  "observacoes": "Associação de teste"
+}
+
+###
+
+### Contador_Utilizadores - Obter por ID
+# Substitua {id} com um ID real
+GET {{LifeCounterApi_HostAddress}}/api/contador_utilizadores/{id}
+Accept: application/json
+
+###
+
+### Contador_Utilizadores - Atualizar
+# Substitua {id} com um ID real
+PUT {{LifeCounterApi_HostAddress}}/api/contador_utilizadores/{id}
+Content-Type: application/json
+
+{
+  "observacoes": "Observações atualizadas"
+}
+
+###
+
+### Contador_Utilizadores - Excluir
+# Substitua {id} com um ID real
+DELETE {{LifeCounterApi_HostAddress}}/api/contador_utilizadores/{id}
+
+###
+
