@@ -90,7 +90,9 @@ Atualize a string de conexão em `appsettings.json` ou `appsettings.Development.
 }
 ```
 
-**Nota:** As tabelas do banco de dados são criadas automaticamente na primeira execução da aplicação se não existirem.
+**Notas importantes:**
+- As tabelas do banco de dados são criadas automaticamente na primeira execução da aplicação se não existirem.
+- ⚠️ **Segurança**: Os valores de exemplo acima usam credenciais padrão. Para ambientes de produção, use variáveis de ambiente ou o User Secrets do .NET para armazenar credenciais sensíveis. Nunca commite senhas reais no controle de versão.
 
 ### Executar a API
 
