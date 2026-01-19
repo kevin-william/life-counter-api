@@ -144,7 +144,9 @@ life-counter-api-rust/
 │   ├── handlers/         # Handlers HTTP (Controllers)
 │   ├── models/           # Entidades do domínio
 │   ├── services/         # Lógica de negócio
+│   ├── lib.rs            # Biblioteca para testes
 │   └── main.rs           # Ponto de entrada da aplicação
+├── tests/                # Testes de integração
 ├── Cargo.toml            # Dependências do projeto
 └── .env                  # Variáveis de ambiente (não versionar)
 ```
@@ -160,6 +162,59 @@ life-counter-api-rust/
 - **Chrono 0.4** - Manipulação de datas
 - **Validator 0.18** - Validação de dados
 - **env_logger 0.11** - Sistema de logging
+
+## Testes
+
+A API possui uma suite de testes abrangente cobrindo todas as camadas da aplicação:
+
+### Tipos de Testes
+
+**Testes Unitários (24 testes)**
+- Validação de DTOs (Contador, Utilizador, ContadorUtilizador)
+- Validação de campos obrigatórios
+- Validação de comprimento de strings
+- Validação de formato de email
+- Serialização/deserialização JSON
+
+**Testes de Integração**
+- Testes de endpoints da API (GET, POST, PUT, PATCH, DELETE)
+- Testes de relacionamentos entre entidades
+- Testes de validação de entrada
+- Testes de casos de erro (404, 400)
+- Testes de CRUD completo
+
+### Executar Testes
+
+```bash
+# Executar todos os testes (unitários + integração)
+cargo test
+
+# Executar apenas testes unitários
+cargo test --lib
+
+# Executar apenas testes de integração
+cargo test --test '*'
+
+# Executar testes com output detalhado
+cargo test -- --nocapture
+
+# Executar um teste específico
+cargo test test_contadores_create_and_get
+
+# Executar testes com logging
+RUST_LOG=debug cargo test -- --nocapture
+```
+
+### Cobertura de Testes
+
+✅ **DTOs (100%)** - Todos os DTOs têm testes de validação  
+✅ **Endpoints (100%)** - Todos os 19 endpoints testados  
+✅ **CRUD Completo** - Create, Read, Update, Delete  
+✅ **Validações** - Campos obrigatórios, limites, formatos  
+✅ **Relacionamentos** - Associações entre entidades  
+✅ **Casos de Erro** - 400, 404, validações
+
+**Nota**: Os testes de integração requerem acesso ao banco de dados PostgreSQL configurado no `.env`.
 
 ## Validações
 
@@ -195,16 +250,6 @@ cargo install cargo-watch
 
 # Executar com hot reload
 cargo watch -x run
-```
-
-### Testes
-
-```bash
-# Executar testes
-cargo test
-
-# Executar testes com output detalhado
-cargo test -- --nocapture
 ```
 
 ## Diferenças da Implementação .NET
