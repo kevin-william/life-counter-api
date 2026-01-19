@@ -29,7 +29,7 @@ pub struct ContadorUpdateDto {
     pub valor: Option<i32>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Validate)]
 pub struct ContadorIncrementarDto {
     #[serde(default = "default_incremento")]
     pub incremento: i32,

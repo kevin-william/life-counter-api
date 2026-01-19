@@ -45,6 +45,8 @@ async fn main() -> std::io::Result<()> {
 
     // Start HTTP server
     HttpServer::new(move || {
+        // CORS configuration - allows all origins for this public API
+        // Note: In production, consider restricting to specific origins for enhanced security
         let cors = Cors::default()
             .allow_any_origin()
             .allow_any_method()

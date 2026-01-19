@@ -118,6 +118,13 @@ pub async fn incrementar(
     id: web::Path<Uuid>,
     dto: web::Json<ContadorIncrementarDto>,
 ) -> impl Responder {
+    if let Err(e) = dto.validate() {
+        return HttpResponse::BadRequest().json(serde_json::json!({
+            "message": "Dados inválidos",
+            "errors": e.to_string()
+        }));
+    }
+
     match ContadorService::incrementar(&pool, *id, dto.incremento).await {
         Ok(Some(contador)) => HttpResponse::Ok().json(contador),
         Ok(None) => HttpResponse::NotFound().json(serde_json::json!({
