@@ -32,6 +32,7 @@ pub async fn create_test_app(pool: DbPool) -> impl actix_web::dev::Service<
         App::new()
             .app_data(web::Data::new(pool.clone()))
             .wrap(cors)
+            .configure(handlers::health::configure)
             .configure(handlers::contadores::configure)
             .configure(handlers::utilizadores::configure)
             .configure(handlers::contador_utilizadores::configure)

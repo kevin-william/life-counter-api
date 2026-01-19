@@ -69,6 +69,14 @@ API RESTful desenvolvida em Rust com Actix-web, Diesel ORM e PostgreSQL para ger
 - `PUT /api/contador_utilizadores/{id}` - Atualiza uma associação
 - `DELETE /api/contador_utilizadores/{id}` - Remove uma associação
 
+### Health Check & Logs
+
+- `GET /health` - Health check básico (status, versão, timestamp)
+- `GET /health/detailed` - Health check detalhado (inclui status do banco de dados)
+- `GET /health/logs` - Visualiza logs recentes da aplicação
+  - Query param `limit`: número de logs a retornar (default: 100, max: 1000)
+  - Exemplo: `/health/logs?limit=50`
+
 ## Configuração
 
 ### Pré-requisitos

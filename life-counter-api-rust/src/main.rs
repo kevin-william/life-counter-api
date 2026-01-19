@@ -56,6 +56,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .wrap(Logger::default())
             .wrap(cors)
+            .configure(handlers::health::configure)
             .configure(handlers::contadores::configure)
             .configure(handlers::utilizadores::configure)
             .configure(handlers::contador_utilizadores::configure)
