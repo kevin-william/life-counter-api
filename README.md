@@ -1,11 +1,45 @@
 # life-counter-api
-Uma API .NET 8 para persistência e obtenção de dados da life counter app
+
+Uma API para persistência e obtenção de dados da life counter app.
+
+Este repositório contém duas implementações da mesma API:
+- **[.NET 8 API](./LifeCounterApi)** - Implementação original em C# com ASP.NET Core
+- **[Rust API](./life-counter-api-rust)** - Implementação em Rust com Actix-web
+
+## Implementações Disponíveis
+
+### .NET 8 API (`/LifeCounterApi`)
+
+API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagger para gerenciamento de contadores e utilizadores.
+
+### Rust API (`/life-counter-api-rust`)
+
+Implementação completa da mesma API usando Rust com Actix-web e Diesel ORM. Oferece:
+- Performance superior e menor uso de memória
+- Segurança garantida pelo sistema de tipos do Rust
+- Binário standalone sem necessidade de runtime
+- Excelente suporte para programação assíncrona
+
+## Escolhendo uma Implementação
+
+Ambas as implementações oferecem a mesma API RESTful e podem ser usadas de forma intercambiável:
+
+**Use a implementação .NET se:**
+- Você já tem expertise em C# e .NET
+- Quer usar o ecossistema .NET (Visual Studio, Azure, etc.)
+- Precisa de documentação automática com Swagger
+
+**Use a implementação Rust se:**
+- Precisa de máxima performance e eficiência de memória
+- Quer garantias de segurança em tempo de compilação
+- Prefere um binário standalone sem dependências de runtime
+- Está desenvolvendo em ambientes com recursos limitados
 
 ## Descrição
 
 API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagger para gerenciamento de contadores e utilizadores.
 
-## Características
+## Características (.NET)
 
 - ✅ .NET 8 Web API
 - ✅ Entity Framework Core com PostgreSQL
@@ -179,6 +213,31 @@ A API utiliza o sistema de logging integrado do ASP.NET Core:
 6. Atualizar `MappingProfile` com os mapeamentos
 7. Criar o controller em `Controllers/`
 8. Registrar dependências em `Program.cs`
+
+## Quick Start
+
+### Executar a API .NET
+
+```bash
+cd LifeCounterApi
+dotnet restore
+dotnet build
+dotnet run
+```
+
+A API estará disponível em `http://localhost:5142` com Swagger UI.
+
+### Executar a API Rust
+
+```bash
+cd life-counter-api-rust
+cargo build
+cargo run
+```
+
+A API estará disponível em `http://localhost:8080`.
+
+Para mais detalhes sobre cada implementação, consulte o README específico de cada pasta.
 
 ## Licença
 
