@@ -2,79 +2,46 @@
 
 Uma API para persistência e obtenção de dados da life counter app.
 
-Este repositório contém duas implementações da mesma API:
-- **[.NET 8 API](./LifeCounterApi)** - Implementação original em C# com ASP.NET Core
-- **[Rust API](./life-counter-api-rust)** - Implementação em Rust com Actix-web
-
-## Implementações Disponíveis
-
-### .NET 8 API (`/LifeCounterApi`)
-
-API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagger para gerenciamento de contadores e utilizadores.
-
-### Rust API (`/life-counter-api-rust`)
-
-Implementação completa da mesma API usando Rust com Actix-web e Diesel ORM. Oferece:
-- Performance superior e menor uso de memória
-- Segurança garantida pelo sistema de tipos do Rust
-- Binário standalone sem necessidade de runtime
-- Excelente suporte para programação assíncrona
-
-## Escolhendo uma Implementação
-
-Ambas as implementações oferecem a mesma API RESTful e podem ser usadas de forma intercambiável:
-
-**Use a implementação .NET se:**
-- Você já tem expertise em C# e .NET
-- Quer usar o ecossistema .NET (Visual Studio, Azure, etc.)
-- Precisa de documentação automática com Swagger
-
-**Use a implementação Rust se:**
-- Precisa de máxima performance e eficiência de memória
-- Quer garantias de segurança em tempo de compilação
-- Prefere um binário standalone sem dependências de runtime
-- Está desenvolvendo em ambientes com recursos limitados
-
 ## Descrição
 
-API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagger para gerenciamento de contadores e utilizadores.
+API RESTful desenvolvida em Rust com Actix-web, Diesel ORM e PostgreSQL para gerenciamento de contadores e utilizadores.
 
-## Características (.NET)
+## Características
 
-- ✅ .NET 8 Web API
-- ✅ Entity Framework Core com PostgreSQL
-- ✅ Criação automática de tabelas ao iniciar
-- ✅ Repository Pattern
-- ✅ Dependency Injection
-- ✅ AutoMapper para mapeamento de DTOs
-- ✅ Swagger/OpenAPI para documentação
-- ✅ Validações de dados
+- ✅ Rust com Actix-web 4.9
+- ✅ Diesel ORM com PostgreSQL
+- ✅ Migrações automáticas ao iniciar
+- ✅ Validações de dados com Validator
 - ✅ Logging estruturado
 - ✅ Tratamento de erros
 - ✅ CORS configurado
+- ✅ Serialização JSON com Serde
+- ✅ Performance superior e menor uso de memória
+- ✅ Segurança garantida pelo sistema de tipos do Rust
+- ✅ Binário standalone sem necessidade de runtime
 
 ## Entidades
 
 ### Contador
-- `Id` (Guid) - Chave primária UUID
-- `Nome` (string) - Nome do contador
-- `Valor` (int) - Valor atual do contador
-- `CriadoEm` (DateTime) - Data de criação
-- `AtualizadoEm` (DateTime) - Data de última atualização
+- `id` (UUID) - Chave primária UUID
+- `nome` (String) - Nome do contador
+- `valor` (i32) - Valor atual do contador
+- `criado_em` (DateTime) - Data de criação
+- `atualizado_em` (DateTime) - Data de última atualização
 
 ### Utilizador
-- `Id` (Guid) - Chave primária UUID
-- `Nome` (string) - Nome do utilizador
-- `Email` (string) - Email único do utilizador
-- `CriadoEm` (DateTime) - Data de criação
-- `AtualizadoEm` (DateTime) - Data de última atualização
+- `id` (UUID) - Chave primária UUID
+- `nome` (String) - Nome do utilizador
+- `email` (String) - Email único do utilizador
+- `criado_em` (DateTime) - Data de criação
+- `atualizado_em` (DateTime) - Data de última atualização
 
 ### Contador_Utilizador
-- `Id` (Guid) - Chave primária UUID
-- `ContadorId` (Guid) - Referência ao contador
-- `UtilizadorId` (Guid) - Referência ao utilizador
-- `Observacoes` (string) - Observações opcionais
-- `CriadoEm` (DateTime) - Data de criação
+- `id` (UUID) - Chave primária UUID
+- `contador_id` (UUID) - Referência ao contador
+- `utilizador_id` (UUID) - Referência ao utilizador
+- `observacoes` (String) - Observações opcionais
+- `criado_em` (DateTime) - Data de criação
 
 ## Endpoints
 
@@ -105,85 +72,113 @@ API RESTful desenvolvida em .NET 8 com Entity Framework Core, AutoMapper e Swagg
 - `PUT /api/contador_utilizadores/{id}` - Atualiza uma associação
 - `DELETE /api/contador_utilizadores/{id}` - Remove uma associação
 
+### Health Check & Logs
+
+- `GET /health` - Health check básico (status, versão, timestamp)
+- `GET /health/detailed` - Health check detalhado (inclui status do banco de dados)
+- `GET /health/logs` - Visualiza logs recentes da aplicação
+  - Query param `limit`: número de logs a retornar (default: 100, max: 1000)
+  - Exemplo: `/health/logs?limit=50`
+
 ## Configuração
 
 ### Pré-requisitos
 
-- .NET 8 SDK
+- Rust (1.70+)
+- Cargo
 - PostgreSQL
+- Diesel CLI (para migrações)
 
-### String de Conexão
+### Instalação do Diesel CLI
 
-Atualize a string de conexão em `appsettings.json` ou `appsettings.Development.json`:
+```bash
+cargo install diesel_cli --no-default-features --features postgres
+```
 
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=LifeCounterDb;Username=postgres;Password=postgres"
-  }
-}
+### Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+DATABASE_URL=postgres://postgres:postgres@localhost/LifeCounterDb
+HOST=0.0.0.0
+PORT=8080
+RUST_LOG=info
 ```
 
 **Notas importantes:**
-- As tabelas do banco de dados são criadas automaticamente na primeira execução da aplicação se não existirem.
-- ⚠️ **Segurança**: Os valores de exemplo acima usam credenciais padrão. Para ambientes de produção, use variáveis de ambiente ou o User Secrets do .NET para armazenar credenciais sensíveis. Nunca commite senhas reais no controle de versão.
+- As tabelas do banco de dados são criadas automaticamente na primeira execução da aplicação através de migrações.
+- ⚠️ **Segurança**: Os valores de exemplo acima usam credenciais padrão. Para ambientes de produção, use variáveis de ambiente seguras. Nunca commite senhas reais no controle de versão.
 
 ### Executar a API
 
 ```bash
-cd LifeCounterApi
-dotnet restore
-dotnet build
-dotnet run
+cd life-counter-api-rust
+
+# Instalar dependências e compilar
+cargo build
+
+# Executar em modo de desenvolvimento
+cargo run
+
+# Executar em modo de produção
+cargo build --release
+./target/release/life_counter_api
 ```
 
 A API estará disponível em:
-- HTTP: `http://localhost:5142`
-- HTTPS: `https://localhost:7212`
-- Swagger UI: `http://localhost:5142` ou `https://localhost:7212`
+- HTTP: `http://localhost:8080`
 
-### Migrations (Entity Framework)
+### Migrações (Diesel)
 
-**Nota:** A aplicação cria automaticamente as tabelas necessárias ao iniciar se elas não existirem. No entanto, se preferir usar migrations do Entity Framework:
+As migrações são aplicadas automaticamente ao iniciar a aplicação. Se precisar executar manualmente:
 
 ```bash
-# Criar uma migration
-dotnet ef migrations add InitialCreate
+# Aplicar migrações
+diesel migration run
 
-# Aplicar migrations ao banco de dados
-dotnet ef database update
+# Reverter última migração
+diesel migration revert
+
+# Criar nova migração
+diesel migration generate <nome_da_migracao>
 ```
 
 ## Estrutura do Projeto
 
 ```
-LifeCounterApi/
-├── Controllers/           # Controladores da API
-├── Data/
-│   ├── ApplicationDbContext.cs
-│   └── Repositories/      # Implementação do padrão Repository
-├── Mappings/              # Perfis do AutoMapper
-├── Models/
-│   ├── DTOs/             # Data Transfer Objects
-│   └── Entities/         # Entidades do domínio
-├── Services/             # Lógica de negócio
-└── Program.cs            # Configuração da aplicação
+life-counter-api-rust/
+├── migrations/            # Migrações do banco de dados
+├── src/
+│   ├── db/               # Configuração do banco de dados e schema
+│   ├── dto/              # Data Transfer Objects
+│   ├── handlers/         # Handlers HTTP (Controllers)
+│   ├── models/           # Entidades do domínio
+│   ├── services/         # Lógica de negócio
+│   ├── lib.rs            # Biblioteca para testes
+│   └── main.rs           # Ponto de entrada da aplicação
+├── tests/                # Testes de integração
+├── Cargo.toml            # Dependências do projeto
+└── .env                  # Variáveis de ambiente (não versionar)
 ```
 
 ## Tecnologias Utilizadas
 
-- **ASP.NET Core 8.0** - Framework web
-- **Entity Framework Core 8.0** - ORM
+- **Rust** - Linguagem de programação
+- **Actix-web 4.9** - Framework web async
+- **Diesel 2.2** - ORM e query builder
 - **PostgreSQL** - Banco de dados
-- **Npgsql** - Driver PostgreSQL para .NET
-- **AutoMapper 12.0** - Mapeamento objeto-objeto
-- **Swashbuckle.AspNetCore 10.1** - Documentação Swagger/OpenAPI
+- **Serde 1.0** - Serialização/Deserialização
+- **UUID 1.11** - Geração de UUIDs
+- **Chrono 0.4** - Manipulação de datas
+- **Validator 0.18** - Validação de dados
+- **env_logger 0.11** - Sistema de logging
 
 ## Validações
 
 A API implementa validações em múltiplos níveis:
 
-- **Validação de modelo** - Atributos de validação nos DTOs
+- **Validação de modelo** - Atributos de validação nos DTOs usando Validator
 - **Validação de negócio** - Lógica customizada nos serviços
 - **Validação de integridade** - Constraints e índices no banco de dados
 
@@ -195,39 +190,80 @@ A API implementa validações em múltiplos níveis:
 
 ## Logging
 
-A API utiliza o sistema de logging integrado do ASP.NET Core:
+A API utiliza o `env_logger` para logging estruturado:
 
 - Logs de informação para operações bem-sucedidas
 - Logs de erro para exceções
-- Logs de aviso para validações de negócio
+- Configurável através da variável `RUST_LOG`
+
+## Testes
+
+A API possui uma suite de testes abrangente cobrindo todas as camadas da aplicação:
+
+### Tipos de Testes
+
+**Testes Unitários (24 testes)**
+- Validação de DTOs (Contador, Utilizador, ContadorUtilizador)
+- Validação de campos obrigatórios
+- Validação de comprimento de strings
+- Validação de formato de email
+- Serialização/deserialização JSON
+
+**Testes de Integração**
+- Testes de endpoints da API (GET, POST, PUT, PATCH, DELETE)
+- Testes de relacionamentos entre entidades
+- Testes de validação de entrada
+- Testes de casos de erro (404, 400)
+- Testes de CRUD completo
+
+### Executar Testes
+
+```bash
+# Executar todos os testes (unitários + integração)
+cargo test
+
+# Executar apenas testes unitários
+cargo test --lib
+
+# Executar apenas testes de integração
+cargo test --test '*'
+
+# Executar testes com output detalhado
+cargo test -- --nocapture
+
+# Executar um teste específico
+cargo test test_contadores_create_and_get
+
+# Executar testes com logging
+RUST_LOG=debug cargo test -- --nocapture
+```
+
+### Cobertura de Testes
+
+✅ **DTOs (100%)** - Todos os DTOs têm testes de validação  
+✅ **Endpoints (100%)** - Todos os 19 endpoints testados  
+✅ **CRUD Completo** - Create, Read, Update, Delete  
+✅ **Validações** - Campos obrigatórios, limites, formatos  
+✅ **Relacionamentos** - Associações entre entidades  
+✅ **Casos de Erro** - 400, 404, validações
+
+**Nota**: Os testes de integração requerem acesso ao banco de dados PostgreSQL configurado no `.env`.
 
 ## Desenvolvimento
 
-### Adicionar uma Nova Entidade
+### Hot Reload com Cargo Watch
 
-1. Criar a entidade em `Models/Entities/`
-2. Criar os DTOs em `Models/DTOs/`
-3. Atualizar o `ApplicationDbContext`
-4. Criar interface e implementação do repository em `Data/Repositories/`
-5. Criar interface e implementação do service em `Services/`
-6. Atualizar `MappingProfile` com os mapeamentos
-7. Criar o controller em `Controllers/`
-8. Registrar dependências em `Program.cs`
-
-## Quick Start
-
-### Executar a API .NET
+Para desenvolvimento com recarga automática:
 
 ```bash
-cd LifeCounterApi
-dotnet restore
-dotnet build
-dotnet run
+# Instalar cargo-watch
+cargo install cargo-watch
+
+# Executar com hot reload
+cargo watch -x run
 ```
 
-A API estará disponível em `http://localhost:5142` com Swagger UI.
-
-### Executar a API Rust
+## Quick Start
 
 ```bash
 cd life-counter-api-rust
@@ -237,7 +273,7 @@ cargo run
 
 A API estará disponível em `http://localhost:8080`.
 
-Para mais detalhes sobre cada implementação, consulte o README específico de cada pasta.
+Para mais detalhes sobre configuração e uso, consulte a seção [Configuração](#configuração) acima.
 
 ## Licença
 
