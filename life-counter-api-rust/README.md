@@ -260,15 +260,6 @@ cargo install cargo-watch
 cargo watch -x run
 ```
 
-## Diferenças da Implementação .NET
-
-Esta implementação Rust mantém a mesma funcionalidade e API da versão .NET original, mas com as seguintes características específicas:
-
-- **Performance**: Rust oferece performance superior e menor uso de memória
-- **Segurança**: Sistema de tipos do Rust previne muitos bugs em tempo de compilação
-- **Concorrência**: Actix-web oferece excelente performance assíncrona
-- **Deployment**: Binário standalone sem necessidade de runtime
-
 ## Licença
 
 Este projeto está sob a licença MIT.
